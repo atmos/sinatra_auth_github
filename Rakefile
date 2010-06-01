@@ -19,7 +19,7 @@ Spec::Rake::SpecTask.new do |t|
 end
 
 GEM = "sinatra_auth_github"
-GEM_VERSION = "0.0.1"
+GEM_VERSION = "0.0.2"
 AUTHOR = "Corey Donohoe"
 EMAIL = "atmos@atmos.org"
 HOMEPAGE = "http://www.github.com/atmos/sinatra_auth_github"
