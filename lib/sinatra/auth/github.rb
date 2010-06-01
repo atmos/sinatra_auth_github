@@ -28,6 +28,10 @@ module Sinatra
         def github_user
           warden.user
         end
+
+        def relative_url_for(path)
+          request.script_name + path
+        end
       end
 
       def self.registered(app)
@@ -45,7 +49,7 @@ module Sinatra
 
         app.get '/auth/github/callback' do
           authenticate!
-          redirect "/"
+          redirect relative_url_for('/')
         end
       end
     end
