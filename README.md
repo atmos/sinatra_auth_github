@@ -5,7 +5,7 @@ A sinatra extension that provides oauth authentication to github.  Find out more
 
 To test it out on localhost set your callback url to 'http://localhost:9292/auth/github/callback'
 
-There's an example app in [spec/app.rb](/spec/app.rb).
+There's an example app in [spec/app.rb](/atmos/sinatra_auth_github/blob/master/spec/app.rb).
 
 The Extension in Action
 =======================
