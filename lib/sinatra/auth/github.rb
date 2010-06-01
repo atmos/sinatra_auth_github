@@ -1,3 +1,5 @@
+require 'warden-github'
+
 module Sinatra
   module Auth
     module Github
