@@ -2,7 +2,7 @@ source :gemcutter
 
 group :runtime do
   gem 'sinatra',             '~>1.0'
-  gem 'warden-github',       '~>0.0.3'
+  gem 'warden-github',       '~>0.0.4'
 end
 
 group :test do
