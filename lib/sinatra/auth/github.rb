@@ -1,3 +1,4 @@
+require 'sinatra/base'
 require 'warden-github'
 
 module Sinatra
