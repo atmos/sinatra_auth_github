@@ -2,7 +2,8 @@ source :gemcutter
 
 group :runtime do
   gem 'sinatra',             '~>1.0'
-  gem 'warden-github',       '~>0.0.4'
+  gem 'emk-sinatra-url-for', '~>0.2.1', :require => 'sinatra/url_for'
+  gem 'warden-github',       '~>0.0.5'
 end
 
 group :test do
@@ -14,6 +15,7 @@ group :test do
   gem 'fakeweb',          '>=1.2.8'
   gem 'randexp',          '>=0.1.4'
   gem 'rack-test',        '~>0.5.3', :require => 'rack/test'
+  gem 'ruby-debug'
 end
 
 # vim:ft=ruby
