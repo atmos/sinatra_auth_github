@@ -1,9 +1,11 @@
+require 'pp'
+require 'rest_client'
+
 module Example
   class App < Sinatra::Base
     enable :sessions
 
-    set  :github_options, {:client_id => ENV['GH_CLIENT_ID'],
-                           :secret    => ENV['GH_SECRET'] }
+    set  :github_options, {:client_id => ENV['GH_CLIENT_ID'], :secret => ENV['GH_SECRET'] }
 
     register Sinatra::Auth::Github
 
@@ -11,12 +13,14 @@ module Example
       authenticate!
     end
 
-    get '/' do
-      "Hello There, #{github_user.name}!"
+    helpers do
+      def repos
+        github_request("repos/show/#{github_user.attribs['login']}")
+      end
     end
 
-    get '/another_route' do
-      "Hello There, #{github_user.name}!"
+    get '/' do
+      "Hello There, #{github_user.name}!\n#{repos.inspect}"
     end
 
     get '/logout' do
