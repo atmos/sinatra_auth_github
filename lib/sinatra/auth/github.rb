@@ -1,5 +1,4 @@
 require 'sinatra/base'
-require 'sinatra/url_for'
 require 'warden-github'
 
 module Sinatra
@@ -55,7 +54,6 @@ module Sinatra
         end
 
         app.helpers Helpers
-        app.helpers Sinatra::UrlForHelper
 
         app.get '/auth/github/callback' do
           authenticate!
