@@ -1,4 +1,5 @@
 require 'sinatra/base'
+require 'sinatra/url_for'
 require 'warden-github'
 
 module Sinatra
@@ -36,6 +37,10 @@ module Sinatra
           response = RestClient.get("https://github.com/api/v2/json/#{path}", {:accept => :json, :params => {:token => github_user.token}})
           JSON.parse(response.body)
         end
+
+        def _relative_url_for(path)
+          request.script_name + path
+        end
       end
 
       def self.registered(app)
@@ -50,10 +55,11 @@ module Sinatra
         end
 
         app.helpers Helpers
+        app.helpers Sinatra::UrlForHelper
 
         app.get '/auth/github/callback' do
           authenticate!
-          redirect url_for '/'
+          redirect _relative_url_for('/')
         end
       end
     end
