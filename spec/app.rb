@@ -5,7 +5,9 @@ module Example
   class App < Sinatra::Base
     enable :sessions
 
-    set  :github_options, {:client_id => ENV['GITHUB_CLIENT_ID'], :secret => ENV['GITHUB_SECRET'], :scopes => 'user,offline_access,repo' }
+    set  :github_options, { :client_id => ENV['GITHUB_CLIENT_ID'],
+                            :secret    => ENV['GITHUB_SECRET'],
+                            :scopes    => 'user,offline_access,repo' }
 
     register Sinatra::Auth::Github
 

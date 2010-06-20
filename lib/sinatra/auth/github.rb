@@ -33,7 +33,7 @@ module Sinatra
         end
 
         def github_request(path)
-          response = RestClient.get("https://github.com/api/v2/json/#{path}", {:accept => :json, :params => {:token => github_user.token}})
+          response = RestClient.get("https://github.com/api/v2/json/#{path}", {:accept => :json, :params => {:access_token => github_user.token}})
           JSON.parse(response.body)
         end
 
@@ -49,7 +49,7 @@ module Sinatra
           manager.failure_app           = app.github_options[:failure_app] || BadAuthentication
 
           manager[:github_secret]       = app.github_options[:secret]
-          manager[:github_callback_url] = app.github_options[:scopes] || 'email,offline_access'
+          manager[:github_scopes]       = app.github_options[:scopes] || 'email,offline_access'
           manager[:github_client_id]    = app.github_options[:client_id]
           manager[:github_callback_url] = app.github_options[:callback_url] || '/auth/github/callback'
         end
