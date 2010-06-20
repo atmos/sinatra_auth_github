@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require 'warden-github'
+require 'rest_client'
 
 module Sinatra
   module Auth
