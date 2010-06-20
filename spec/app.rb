@@ -16,7 +16,7 @@ module Example
 
     helpers do
       def repos
-        github_request("repos/show/#{github_user.attribs['login']}")
+        github_request("repos/show/#{github_user.login}")
       end
     end
 
