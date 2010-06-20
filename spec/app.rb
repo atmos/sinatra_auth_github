@@ -1,5 +1,4 @@
 require 'pp'
-require 'rest_client'
 
 module Example
   class App < Sinatra::Base
