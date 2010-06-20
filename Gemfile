@@ -2,7 +2,7 @@ source :gemcutter
 
 group :runtime do
   gem 'sinatra',          '~>1.0',   :require => nil
-  gem 'warden-github',    '~>0.0.5', :require => nil
+  gem 'warden-github',    '~>0.0.6', :require => nil
   gem 'rest-client',      '~>1.5.1', :require => nil
 end
 
