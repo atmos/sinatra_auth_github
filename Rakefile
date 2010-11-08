@@ -37,7 +37,7 @@ spec = Gem::Specification.new do |s|
   s.email = EMAIL
   s.homepage = HOMEPAGE
 
-  bundle = Bundler::Definition.from_gemfile('Gemfile')
+  bundle = Bundler::Definition.build('Gemfile', 'Gemfile.lock', { })
   bundle.dependencies.each do |dep|
     next unless dep.groups.include?(:runtime)
     s.add_dependency(dep.name, dep.version_requirements.to_s)
