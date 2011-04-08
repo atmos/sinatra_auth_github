@@ -5,6 +5,8 @@ require 'rest_client'
 module Sinatra
   module Auth
     module Github
+      VERSION = "0.0.13"
+
       class BadAuthentication < Sinatra::Base
         get '/unauthenticated' do
           status 403
