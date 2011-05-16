@@ -13,4 +13,48 @@ The Extension in Action
 =======================
     % gem install bundler
     % bundle install
-    % GH_CLIENT_ID="<from GH>" GH_SECRET="<from GH>" bundle exec rackup
+    % GITHUB_CLIENT_ID="<from GH>" GITHUB_CLIENT_SECRET="<from GH>" bundle exec shotgun
+
+```ruby
+module Example
+  class App < Sinatra::Base
+    enable :sessions
+
+    set  :github_options, {
+                            # GitHub Provided secrets
+                            :secret       => ENV['GITHUB_CLIENT_SECRET'],
+                            :client_id    => ENV['GITHUB_CLIENT_ID'],
+
+                            # How much info you need about the user
+                            :scopes       => 'user,offline_access',
+
+                            # restrict access to a members of organization named
+                            :organization => "github",
+
+                            # restrict access to specific team on an organization
+                            :team         => nil # || 42
+                          }
+
+    register Sinatra::Auth::Github
+
+    before do
+      authenticate!
+    end
+
+    helpers do
+      def repos
+        github_request("repos/show/#{github_user.login}")
+      end
+    end
+
+    get '/' do
+      "Hello There, #{github_user.name}!#{github_user.token}\n#{repos.inspect}"
+    end
+
+    get '/logout' do
+      logout!
+      redirect '/'
+    end
+  end
+end
+```
