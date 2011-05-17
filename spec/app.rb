@@ -4,27 +4,13 @@ module Example
   class App < Sinatra::Base
     enable :sessions
 
-    set  :github_options, {
-                            # GitHub Provided secrets
-                            :secret       => ENV['GITHUB_CLIENT_SECRET'],
-                            :client_id    => ENV['GITHUB_CLIENT_ID'],
-
-                            # How much info you need about the user
-                            :scopes       => 'user,offline_access,repo',
-
-                            # restrict access to a members of organization named
-                            :organization => "github",
-
-                            # restrict access to specific team on an organization
-                            :team         => nil # || 42
-                           }
+    set :github_options, {
+                            :secret    => ENV['GITHUB_CLIENT_SECRET'],
+                            :client_id => ENV['GITHUB_CLIENT_ID'],
+                            :scopes    => 'user,offline_access,repo' # repo is need for org auth :\
+                          }
 
     register Sinatra::Auth::Github
-
-    before do
-      # authenticate!
-      # halt([401, "Unauthorized User"]) unless github_organization_member?
-    end
 
     helpers do
       def repos
