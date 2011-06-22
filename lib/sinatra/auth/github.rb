@@ -7,12 +7,15 @@ module Sinatra
     module Github
       VERSION = "0.1.1"
 
+      # Simple way to serve an image early in the stack and not get blocked by
+      # application level before filters
       class AccessDenied < Sinatra::Base
         get '/_images/securocat.png' do
           send_file(File.join(File.dirname(__FILE__), "views", "securocat.png"))
         end
       end
 
+      # The default failure application, this is overridable from the extension config
       class BadAuthentication < Sinatra::Base
         helpers do
           def unauthorized_template
@@ -43,6 +46,9 @@ module Sinatra
           warden.logout
         end
 
+        # The authenticated user object
+        #
+        # Supports a variety of methods, name, full_name, email, etc
         def github_user
           warden.user
         end
@@ -97,12 +103,21 @@ module Sinatra
           false
         end
 
-        # Auth only certain individuals
+        # Enforce user membership to the named organization
+        #
+        # name - the organization to test membership against
+        #
+        # Returns an execution halt if the user is not a member of the named org
         def github_organization_authenticate!(name)
           authenticate!
           halt([401, "Unauthorized User"]) unless github_organization_access?(name)
         end
 
+        # Enforce user membership to the team id
+        #
+        # team_id - the team_id to test membership against
+        #
+        # Returns an execution halt if the user is not a member of the team
         def github_team_authenticate!(team_id)
           authenticate!
           halt([401, "Unauthorized User"]) unless github_team_access?(team_id)
@@ -133,7 +148,6 @@ module Sinatra
           authenticate!
           redirect _relative_url_for('/')
         end
-
       end
     end
   end
