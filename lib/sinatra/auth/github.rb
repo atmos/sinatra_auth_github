@@ -5,7 +5,7 @@ require 'rest_client'
 module Sinatra
   module Auth
     module Github
-      VERSION = "0.0.14"
+      VERSION = "0.1.0"
 
       class BadAuthentication < Sinatra::Base
         helpers do
