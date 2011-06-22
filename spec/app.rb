@@ -29,7 +29,7 @@ module Example
     end
 
     get '/teams/:id' do
-      github_organization_team_authenticate!(params['id'])
+      github_team_authenticate!(params['id'])
       "Hello There, #{github_user.name}! You have access to the #{params['id']} team."
     end
 

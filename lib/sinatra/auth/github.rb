@@ -35,26 +35,53 @@ module Sinatra
           warden.user
         end
 
-        # API Requests
-        def github_request(path, parse_response = true)
-          response = RestClient.get("https://api.github.com/#{path}", :params => { :access_token => github_user.token }, :accept => :json)
-          if parse_response
-            JSON.parse(response.body)
-          else
-            response
-          end
+        # Send a V3 API GET request to path
+        #
+        # path - the path on api.github.com to hit
+        #
+        # Returns a rest client response object
+        #
+        # Examples
+        #   github_raw_request("/user")
+        #   # => RestClient::Response
+        def github_raw_request(path)
+          RestClient.get("https://api.github.com/#{path}", :params => { :access_token => github_user.token }, :accept => :json)
         end
 
-        # Access Inquiries
+        # Send a V3 API GET request to path and JSON parse the response body
+        #
+        # path - the path on api.github.com to hit
+        #
+        # Returns a parsed JSON response
+        #
+        # Examples
+        #   github_raw_request("/user")
+        #   # => { 'login' => 'atmos', ... }
+        def github_request(path)
+          JSON.parse(github_raw_request(path))
+        end
+
+        # See if the user is a member of the named organization
+        #
+        # name - the organization name
+        #
+        # Returns: true if the uesr has access, false otherwise
         def github_organization_access?(name)
-          response = github_request("orgs/#{name}/members/#{github_user.login}", false)
-          response.to_i == 204
+          orgs = github_request("orgs/#{name}/members")
+          orgs.map { |org| org["login"] }.include?(github_user.login)
+        rescue RestClient::Unauthorized, RestClient::ResourceNotFound => e
+          false
         end
 
-        def github_organization_team_access?(team)
-          response = github_request("teams/#{team}/members/#{github_user.login}", false)
-          response.to_i == 204
-        rescue RestClient::Unauthorized => e
+        # See if the user is a member of the team id
+        #
+        # team_id - the team's id
+        #
+        # Returns: true if the uesr has access, false otherwise
+        def github_team_access?(team_id)
+          members = github_request("teams/#{team_id}/members")
+          members.map { |user| user["login"] }.include?(github_user.login)
+        rescue RestClient::Unauthorized, RestClient::ResourceNotFound => e
           false
         end
 
@@ -64,9 +91,9 @@ module Sinatra
           halt([401, "Unauthorized User"]) unless github_organization_access?(name)
         end
 
-        def github_organization_team_authenticate!(team)
+        def github_team_authenticate!(team_id)
           authenticate!
-          halt([401, "Unauthorized User"]) unless github_organization_team_access?(team)
+          halt([401, "Unauthorized User"]) unless github_team_access?(team_id)
         end
 
         def _relative_url_for(path)
