@@ -8,9 +8,15 @@ module Sinatra
       VERSION = "0.0.14"
 
       class BadAuthentication < Sinatra::Base
+        helpers do
+          def unauthorized_template
+            @unauthenticated_template ||= File.read(File.join(File.dirname(__FILE__), "views", "401.html"))
+          end
+        end
+
         get '/unauthenticated' do
           status 403
-          "Unable to authenticate, sorry bud."
+          unauthorized_template
         end
       end
 
@@ -119,6 +125,10 @@ module Sinatra
         app.get '/auth/github/callback' do
           authenticate!
           redirect _relative_url_for('/')
+        end
+
+        app.get '/_images/securocat.png' do
+          send_file(File.join(File.dirname(__FILE__), "views", "securocat.png"))
         end
       end
     end
