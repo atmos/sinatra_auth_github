@@ -5,7 +5,13 @@ require 'rest_client'
 module Sinatra
   module Auth
     module Github
-      VERSION = "0.1.0"
+      VERSION = "0.1.1"
+
+      class AccessDenied < Sinatra::Base
+        get '/_images/securocat.png' do
+          send_file(File.join(File.dirname(__FILE__), "views", "securocat.png"))
+        end
+      end
 
       class BadAuthentication < Sinatra::Base
         helpers do
@@ -108,6 +114,7 @@ module Sinatra
       end
 
       def self.registered(app)
+        app.use AccessDenied
         app.use Warden::Manager do |manager|
           manager.default_strategies :github
 
@@ -127,9 +134,6 @@ module Sinatra
           redirect _relative_url_for('/')
         end
 
-        app.get '/_images/securocat.png' do
-          send_file(File.join(File.dirname(__FILE__), "views", "securocat.png"))
-        end
       end
     end
   end
