@@ -36,20 +36,24 @@ module Sinatra
         end
 
         # API Requests
-        def github_request(path)
-          response = RestClient.get "https://github.com/api/v2/json/#{path}", :params => { :access_token => github_user.token }, :accept => :json
-          JSON.parse(response.body)
+        def github_request(path, parse_response = true)
+          response = RestClient.get("https://api.github.com/#{path}", :params => { :access_token => github_user.token }, :accept => :json)
+          if parse_response
+            JSON.parse(response.body)
+          else
+            response
+          end
         end
 
         # Access Inquiries
         def github_organization_access?(name)
-          orgs = github_request("user/show/#{github_user.login}/organizations")["organizations"]
-          orgs.map { |org| org["login"] }.include?(name)
+          response = github_request("orgs/#{name}/members/#{github_user.login}", false)
+          response.to_i == 204
         end
 
-        def github_organization_team_access?(name, team)
-          members = github_request("teams/#{team}/members")["users"]
-          members.map { |user| user["login"] }.include?(github_user.login)
+        def github_organization_team_access?(team)
+          response = github_request("teams/#{team}/members/#{github_user.login}", false)
+          response.to_i == 204
         rescue RestClient::Unauthorized => e
           false
         end
@@ -60,9 +64,9 @@ module Sinatra
           halt([401, "Unauthorized User"]) unless github_organization_access?(name)
         end
 
-        def github_organization_team_authenticate!(name, team)
+        def github_organization_team_authenticate!(team)
           authenticate!
-          halt([401, "Unauthorized User"]) unless github_organization_team_access?(name, team)
+          halt([401, "Unauthorized User"]) unless github_organization_team_access?(team)
         end
 
         def _relative_url_for(path)

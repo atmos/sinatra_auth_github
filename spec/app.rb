@@ -14,7 +14,7 @@ module Example
 
     helpers do
       def repos
-        github_request("repos/show/#{github_user.login}")
+        github_request("user/repos")
       end
     end
 
@@ -28,9 +28,9 @@ module Example
       "Hello There, #{github_user.name}! You have access to the #{params['id']} organization."
     end
 
-    get '/orgs/:org_id/team/:id' do
-      github_organization_team_authenticate!(params['org_id'], params['id'])
-      "Hello There, #{github_user.name}! You have access to the #{params['id']} team under the #{params['org_id']} organization."
+    get '/teams/:id' do
+      github_organization_team_authenticate!(params['id'])
+      "Hello There, #{github_user.name}! You have access to the #{params['id']} team."
     end
 
     get '/logout' do
