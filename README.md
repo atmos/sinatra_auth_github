@@ -12,8 +12,6 @@ The gist of this project is to provide a few things easily:
 * optionally restrict users to a specific github organization
 * optionally restrict users to a specific github team
 
-There's a slightly more deployment friendly version [href](http://gist.github.com/421704).
-
 Installation
 ============
 
@@ -45,8 +43,10 @@ The extension also provides a simple way to do get requests against the
 GitHub API as the authenticated user.
 
     def repos
-      github_request("repos/show/#{github_user.login}")
+      github_request("user/repos")
     end
+
+There's awesome docs on the v3 API [available here](http://developer.github.com/v3/).
 
 Extension Options
 =================
