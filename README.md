@@ -3,58 +3,56 @@ sinatra_auth_github
 
 A sinatra extension that provides oauth authentication to github.  Find out more about enabling your application at github's [oauth quickstart](http://gist.github.com/419219).
 
-To test it out on localhost set your callback url to 'http://localhost:9292/auth/github/callback'
+To test it out on localhost set your callback url to 'http://localhost:9393/auth/github/callback'
 
-There's an example app in [spec/app.rb](/atmos/sinatra_auth_github/blob/master/spec/app.rb).
+The gist of this project is to provide a few things easily:
+
+* authenticate a user against github's oauth service
+* provide an easy way to make API requests for the authenticated user
+* optionally restrict users to a specific github organization
+* optionally restrict users to a specific github team
 
 There's a slightly more deployment friendly version [href](http://gist.github.com/421704).
 
-The Extension in Action
-=======================
+Installation
+============
+
+    % gem install sinatra_auth_github
+
+Running the Example
+===================
     % gem install bundler
     % bundle install
-    % GITHUB_CLIENT_ID="<from GH>" GITHUB_CLIENT_SECRET="<from GH>" bundle exec shotgun
+    % GITHUB_CLIENT_ID="<from GH>" GITHUB_CLIENT_SECRET="<from GH>" bundle exec rackup -p9393
 
-```ruby
-module Example
-  class App < Sinatra::Base
-    enable :sessions
+There's an example app in [spec/app.rb](/atmos/sinatra_auth_github/blob/master/spec/app.rb).
 
-    set  :github_options, {
-                            # GitHub Provided secrets
-                            :secret       => ENV['GITHUB_CLIENT_SECRET'],
-                            :client_id    => ENV['GITHUB_CLIENT_ID'],
+Example App Functionality
+=========================
 
-                            # How much info you need about the user
-                            :scopes       => 'user,offline_access',
+You can simply authenticate via GitHub by hitting http://localhost:9292
 
-                            # restrict access to a members of organization named
-                            :organization => "github",
+You can check organization membership by hitting http://localhost:9292/orgs/github
 
-                            # restrict access to specific team on an organization
-                            :team         => nil # || 42
-                          }
+You can check team membership by hitting http://localhost:9292/teams/42
 
-    register Sinatra::Auth::Github
+All unsuccessful authentication requests get sent to the securocat denied page.
 
-    before do
-      authenticate!
+API Requests
+============
+
+The extension also provides a simple way to do get requests against the
+GitHub API as the authenticated user.
+
+    def repos
+      github_request("repos/show/#{github_user.login}")
     end
 
-    helpers do
-      def repos
-        github_request("repos/show/#{github_user.login}")
-      end
-    end
+Extension Options
+=================
 
-    get '/' do
-      "Hello There, #{github_user.name}!#{github_user.token}\n#{repos.inspect}"
-    end
-
-    get '/logout' do
-      logout!
-      redirect '/'
-    end
-  end
-end
-```
+* `:scopes`       - The OAuth2 scopes you require, [Learn More](http://gist.github.com/419219)
+* `:secret`       - The client secret that GitHub provides
+* `:client_id`    - The client id that GitHub provides
+* `:failure_app`  - A Sinatra::Base class that has a route for `/authenticated`, Useful for overriding the securocat default page.
+* `:callback_url` - The path that GitHub posts back to, defaults to `/auth/github/callback`.

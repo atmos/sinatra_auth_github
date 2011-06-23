@@ -138,7 +138,6 @@ module Sinatra
           manager[:github_secret]       = app.github_options[:secret]
           manager[:github_scopes]       = app.github_options[:scopes] || 'email,offline_access'
           manager[:github_client_id]    = app.github_options[:client_id]
-          manager[:github_organization] = app.github_options[:organization] || nil
           manager[:github_callback_url] = app.github_options[:callback_url] || '/auth/github/callback'
         end
 
