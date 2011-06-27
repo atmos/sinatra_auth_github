@@ -35,7 +35,7 @@ module Example
 
     get '/logout' do
       logout!
-      redirect '/'
+      redirect 'https://github.com'
     end
   end
 end

@@ -5,7 +5,7 @@ require 'rest_client'
 module Sinatra
   module Auth
     module Github
-      VERSION = "0.1.1"
+      VERSION = "0.1.2"
 
       # Simple way to serve an image early in the stack and not get blocked by
       # application level before filters
@@ -87,7 +87,7 @@ module Sinatra
         def github_organization_access?(name)
           orgs = github_request("orgs/#{name}/members")
           orgs.map { |org| org["login"] }.include?(github_user.login)
-        rescue RestClient::Unauthorized, RestClient::ResourceNotFound => e
+        rescue RestClient::Forbidden, RestClient::Unauthorized, RestClient::ResourceNotFound => e
           false
         end
 
@@ -99,7 +99,7 @@ module Sinatra
         def github_team_access?(team_id)
           members = github_request("teams/#{team_id}/members")
           members.map { |user| user["login"] }.include?(github_user.login)
-        rescue RestClient::Unauthorized, RestClient::ResourceNotFound => e
+        rescue RestClient::Forbidden, RestClient::Unauthorized, RestClient::ResourceNotFound => e
           false
         end
 
@@ -135,9 +135,9 @@ module Sinatra
 
           manager.failure_app           = app.github_options[:failure_app] || BadAuthentication
 
-          manager[:github_secret]       = app.github_options[:secret]
-          manager[:github_scopes]       = app.github_options[:scopes] || 'email,offline_access'
-          manager[:github_client_id]    = app.github_options[:client_id]
+          manager[:github_secret]       = app.github_options[:secret]       || ENV['GITHUB_CLIENT_SECRET']
+          manager[:github_scopes]       = app.github_options[:scopes]       || 'email,offline_access'
+          manager[:github_client_id]    = app.github_options[:client_id]    || ENV['GITHUB_CLIENT_ID']
           manager[:github_callback_url] = app.github_options[:callback_url] || '/auth/github/callback'
         end
 
@@ -145,7 +145,8 @@ module Sinatra
 
         app.get '/auth/github/callback' do
           authenticate!
-          redirect _relative_url_for('/')
+          return_to = session.delete('return_to') || _relative_url_for('/')
+          redirect return_to
         end
       end
     end
