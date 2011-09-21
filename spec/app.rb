@@ -7,8 +7,7 @@ module Example
     set :github_options, {
                             :secret    => ENV['GITHUB_CLIENT_SECRET'],
                             :client_id => ENV['GITHUB_CLIENT_ID'],
-                            :scopes    => 'user,offline_access,repo' # repo is need for org auth :\
-                          }
+                         }
 
     register Sinatra::Auth::Github
 
@@ -24,14 +23,15 @@ module Example
     end
 
     get '/orgs/:id' do
-      github_organization_authenticate!(params['id'])
+      github_public_organization_authenticate!(params['id'])
       "Hello There, #{github_user.name}! You have access to the #{params['id']} organization."
     end
 
-    get '/teams/:id' do
-      github_team_authenticate!(params['id'])
-      "Hello There, #{github_user.name}! You have access to the #{params['id']} team."
-    end
+    # the scopes above need to include repo for team access :(
+    # get '/teams/:id' do
+    #   github_team_authenticate!(params['id'])
+    #   "Hello There, #{github_user.name}! You have access to the #{params['id']} team."
+    # end
 
     get '/logout' do
       logout!
