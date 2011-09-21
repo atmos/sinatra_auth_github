@@ -85,6 +85,18 @@ module Sinatra
           JSON.parse(github_raw_request(path))
         end
 
+        # See if the user is a public member of the named organization
+        #
+        # name - the organization name
+        #
+        # Returns: true if the user is public access, false otherwise
+        def github_public_organization_access?(name)
+          orgs = github_request("orgs/#{name}/public_members")
+          orgs.map { |org| org["login"] }.include?(github_user.login)
+        rescue RestClient::Forbidden, RestClient::Unauthorized, RestClient::ResourceNotFound => e
+          false
+        end
+
         # See if the user is a member of the named organization
         #
         # name - the organization name
@@ -110,6 +122,16 @@ module Sinatra
         end
 
         # Enforce user membership to the named organization
+        #
+        # name - the organization to test membership against
+        #
+        # Returns an execution halt if the user is not a member of the named org
+        def github_public_organization_authenticate!(name)
+          authenticate!
+          halt([401, "Unauthorized User"]) unless github_public_organization_access?(name)
+        end
+
+        # Enforce user membership to the named organization if membership is publicized
         #
         # name - the organization to test membership against
         #
