@@ -79,7 +79,7 @@ module Sinatra
         # Returns a parsed JSON response
         #
         # Examples
-        #   github_raw_request("/user")
+        #   github_request("/user")
         #   # => { 'login' => 'atmos', ... }
         def github_request(path)
           JSON.parse(github_raw_request(path))
@@ -101,7 +101,7 @@ module Sinatra
         #
         # name - the organization name
         #
-        # Returns: true if the uesr has access, false otherwise
+        # Returns: true if the user has access, false otherwise
         def github_organization_access?(name)
           orgs = github_request("orgs/#{name}/members")
           orgs.map { |org| org["login"] }.include?(github_user.login)
@@ -113,7 +113,7 @@ module Sinatra
         #
         # team_id - the team's id
         #
-        # Returns: true if the uesr has access, false otherwise
+        # Returns: true if the user has access, false otherwise
         def github_team_access?(team_id)
           members = github_request("teams/#{team_id}/members")
           members.map { |user| user["login"] }.include?(github_user.login)
