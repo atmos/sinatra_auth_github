@@ -54,5 +54,5 @@ Extension Options
 * `:scopes`       - The OAuth2 scopes you require, [Learn More](http://gist.github.com/419219)
 * `:secret`       - The client secret that GitHub provides
 * `:client_id`    - The client id that GitHub provides
-* `:failure_app`  - A Sinatra::Base class that has a route for `/authenticated`, Useful for overriding the securocat default page.
+* `:failure_app`  - A Sinatra::Base class that has a route for `/unauthenticated`, Useful for overriding the securocat default page.
 * `:callback_url` - The path that GitHub posts back to, defaults to `/auth/github/callback`.
