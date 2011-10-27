@@ -5,7 +5,7 @@ require 'rest_client'
 module Sinatra
   module Auth
     module Github
-      VERSION = "0.1.2"
+      VERSION = "0.1.5"
 
       # Simple way to serve an image early in the stack and not get blocked by
       # application level before filters
@@ -164,7 +164,7 @@ module Sinatra
           manager.failure_app           = app.github_options[:failure_app] || BadAuthentication
 
           manager[:github_secret]       = app.github_options[:secret]       || ENV['GITHUB_CLIENT_SECRET']
-          manager[:github_scopes]       = app.github_options[:scopes]       || 'email,offline_access'
+          manager[:github_scopes]       = app.github_options[:scopes]       || ''
           manager[:github_client_id]    = app.github_options[:client_id]    || ENV['GITHUB_CLIENT_ID']
           manager[:github_callback_url] = app.github_options[:callback_url] || '/auth/github/callback'
         end
