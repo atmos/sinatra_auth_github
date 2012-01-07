@@ -1,7 +1,7 @@
 require 'rake/gempackagetask'
 require 'rubygems/specification'
 require 'date'
-require 'bundler'
+require 'bundler/setup'
 
 task :default => [:spec]
 
