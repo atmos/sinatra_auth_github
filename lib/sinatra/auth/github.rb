@@ -82,7 +82,7 @@ module Sinatra
         #   github_request("/user")
         #   # => { 'login' => 'atmos', ... }
         def github_request(path)
-          JSON.parse(github_raw_request(path))
+          ::JSON.parse(github_raw_request(path))
         end
 
         # See if the user is a public member of the named organization
