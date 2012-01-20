@@ -5,9 +5,9 @@ module Example
     enable :sessions
 
     set :github_options, {
-                            :secret    => ENV['GITHUB_CLIENT_SECRET'],
-                            :client_id => ENV['GITHUB_CLIENT_ID'],
-                         }
+      :secret    => ENV['GITHUB_CLIENT_SECRET'],
+      :client_id => ENV['GITHUB_CLIENT_ID'],
+    }
 
     register Sinatra::Auth::Github
 

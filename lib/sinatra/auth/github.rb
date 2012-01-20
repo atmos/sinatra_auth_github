@@ -1,3 +1,4 @@
+require 'yajl'
 require 'sinatra/base'
 require 'warden-github'
 require 'rest_client'
@@ -72,7 +73,7 @@ module Sinatra
           RestClient.get("https://api.github.com/#{path}", :params => { :access_token => github_user.token }, :accept => :json)
         end
 
-        # Send a V3 API GET request to path and JSON parse the response body
+        # Send a V3 API GET request to path and parse the response body
         #
         # path - the path on api.github.com to hit
         #
@@ -82,7 +83,7 @@ module Sinatra
         #   github_request("/user")
         #   # => { 'login' => 'atmos', ... }
         def github_request(path)
-          JSON.parse(github_raw_request(path))
+          Yajl.load(github_raw_request(path))
         end
 
         # See if the user is a public member of the named organization
