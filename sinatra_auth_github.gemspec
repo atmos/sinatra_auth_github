@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "sinatra_auth_github"
-  s.version     = "0.3.1"
+  s.version     = "0.4.0"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Corey Donohoe"]
   s.email       = ["atmos@atmos.org"]
@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.add_dependency "sinatra",       "~>1.0"
   s.add_dependency "yajl-ruby",     "~>1.1"
   s.add_dependency "rest-client",   "~>1.6.1"
-  s.add_dependency "warden-github", "~>0.3.0"
+  s.add_dependency "warden-github", "~>0.4.0"
 
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec",     "~>1.3.0"

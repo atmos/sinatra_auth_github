@@ -56,3 +56,4 @@ Extension Options
 * `:client_id`    - The client id that GitHub provides
 * `:failure_app`  - A Sinatra::Base class that has a route for `/unauthenticated`, Useful for overriding the securocat default page.
 * `:callback_url` - The path that GitHub posts back to, defaults to `/auth/github/callback`.
+* `:oauth_domain` - The scheme and host that's GitHub's endpoint, defaults to `https://github.com`

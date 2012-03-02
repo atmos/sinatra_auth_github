@@ -6,7 +6,7 @@ require 'rest_client'
 module Sinatra
   module Auth
     module Github
-      VERSION = "0.3.0"
+      VERSION = "0.4.0"
 
       # Simple way to serve an image early in the stack and not get blocked by
       # application level before filters
@@ -60,6 +60,15 @@ module Sinatra
           warden.user
         end
 
+        def github_api_uri
+          if ENV['GITHUB_OAUTH_API_DOMAIN']
+            ENV['GITHUB_OAUTH_API_DOMAIN']
+          else
+            uri = URI.parse(env['warden'].config[:github_oauth_domain])
+            "#{uri.scheme}://api.#{uri.host}"
+          end
+        end
+
         # Send a V3 API GET request to path
         #
         # path - the path on api.github.com to hit
@@ -70,7 +79,7 @@ module Sinatra
         #   github_raw_request("/user")
         #   # => RestClient::Response
         def github_raw_request(path)
-          RestClient.get("https://api.github.com/#{path}", :params => { :access_token => github_user.token }, :accept => :json)
+          RestClient.get("#{github_api_uri}/#{path}", :params => { :access_token => github_user.token }, :accept => :json)
         end
 
         # Send a V3 API GET request to path and parse the response body
@@ -167,6 +176,7 @@ module Sinatra
           manager[:github_secret]       = app.github_options[:secret]       || ENV['GITHUB_CLIENT_SECRET']
           manager[:github_scopes]       = app.github_options[:scopes]       || ''
           manager[:github_client_id]    = app.github_options[:client_id]    || ENV['GITHUB_CLIENT_ID']
+          manager[:github_oauth_domain] = app.github_options[:oauth_domain] || ENV['GITHUB_OAUTH_DOMAIN'] || 'https://github.com'
           manager[:github_callback_url] = app.github_options[:callback_url] || '/auth/github/callback'
         end
 

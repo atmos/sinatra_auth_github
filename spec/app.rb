@@ -1,4 +1,5 @@
 require 'pp'
+require 'ruby-debug'
 
 module Example
   class App < Sinatra::Base
