@@ -1,9 +1,10 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
+require "sinatra/auth/github/version"
 
 Gem::Specification.new do |s|
   s.name        = "sinatra_auth_github"
-  s.version     = "0.4.0"
+  s.version     = Sinatra::Auth::Github::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Corey Donohoe"]
   s.email       = ["atmos@atmos.org"]
