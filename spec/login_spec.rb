@@ -2,13 +2,11 @@ require "spec_helper"
 
 describe "Logged in users" do
   before do
-    @user = User.make('login' => 'defunkt')
-    sign_in @user
+    @user = make_user('login' => 'defunkt')
+    login_as @user
   end
 
   it "greets the user" do
-    sign_in @user
-
     get "/"
     last_response.body.should eql("Hello there, defunkt!")
   end
