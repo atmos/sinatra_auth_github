@@ -20,9 +20,8 @@ Gem::Specification.new do |s|
   s.add_dependency "warden-github", "~>0.4.0"
 
   s.add_development_dependency "rake"
-  s.add_development_dependency "rspec",     "~>1.3.0"
+  s.add_development_dependency "rspec",     "~>2.0"
   s.add_development_dependency "shotgun"
-  s.add_development_dependency "ZenTest",   "~>4.5.0"
   s.add_development_dependency "randexp",   "~>0.1.5"
   s.add_development_dependency "rack-test", "~>0.5.3"
   s.add_development_dependency "ruby-debug"

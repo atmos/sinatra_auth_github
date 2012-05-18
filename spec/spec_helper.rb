@@ -11,7 +11,7 @@ require 'sinatra/auth/github/test/test_helper'
 
 require 'app'
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   config.include(Rack::Test::Methods)
   config.include(Sinatra::Auth::Github::Test::Helper)
 

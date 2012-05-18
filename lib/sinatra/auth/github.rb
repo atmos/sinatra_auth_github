@@ -6,8 +6,6 @@ require 'rest_client'
 module Sinatra
   module Auth
     module Github
-      VERSION = "0.4.0"
-
       # Simple way to serve an image early in the stack and not get blocked by
       # application level before filters
       class AccessDenied < Sinatra::Base
