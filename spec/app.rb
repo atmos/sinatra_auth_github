@@ -20,7 +20,7 @@ module Example
 
     get '/' do
       authenticate!
-      "Hello There, #{github_user.name}!#{github_user.token}\n#{repos.inspect}"
+      "Hello there, #{github_user.login}!"
     end
 
     get '/orgs/:id' do
