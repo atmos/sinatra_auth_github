@@ -58,15 +58,6 @@ module Sinatra
           warden.user
         end
 
-        def github_api_uri
-          if ENV['GITHUB_OAUTH_API_DOMAIN']
-            ENV['GITHUB_OAUTH_API_DOMAIN']
-          else
-            uri = URI.parse(env['warden'].config[:github_oauth_domain])
-            "#{uri.scheme}://api.#{uri.host}"
-          end
-        end
-
         # Send a V3 API GET request to path
         #
         # path - the path on api.github.com to hit
@@ -77,7 +68,7 @@ module Sinatra
         #   github_raw_request("/user")
         #   # => RestClient::Response
         def github_raw_request(path)
-          RestClient.get("#{github_api_uri}/#{path}", :params => { :access_token => github_user.token }, :accept => :json)
+          github_user.github_raw_request(path)
         end
 
         # Send a V3 API GET request to path and parse the response body
@@ -90,7 +81,7 @@ module Sinatra
         #   github_request("/user")
         #   # => { 'login' => 'atmos', ... }
         def github_request(path)
-          Yajl.load(github_raw_request(path))
+          github_user.github_request(path)
         end
 
         # See if the user is a public member of the named organization
@@ -99,10 +90,7 @@ module Sinatra
         #
         # Returns: true if the user is public access, false otherwise
         def github_public_organization_access?(name)
-          orgs = github_request("orgs/#{name}/public_members")
-          orgs.map { |org| org["login"] }.include?(github_user.login)
-        rescue RestClient::Forbidden, RestClient::Unauthorized, RestClient::ResourceNotFound => e
-          false
+          github_user.publicized_organization_member?(name)
         end
 
         # See if the user is a member of the named organization
@@ -111,10 +99,7 @@ module Sinatra
         #
         # Returns: true if the user has access, false otherwise
         def github_organization_access?(name)
-          orgs = github_request("orgs/#{name}/members")
-          orgs.map { |org| org["login"] }.include?(github_user.login)
-        rescue RestClient::Forbidden, RestClient::Unauthorized, RestClient::ResourceNotFound => e
-          false
+          github_user.organization_member?(name)
         end
 
         # See if the user is a member of the team id
@@ -123,10 +108,7 @@ module Sinatra
         #
         # Returns: true if the user has access, false otherwise
         def github_team_access?(team_id)
-          members = github_request("teams/#{team_id}/members")
-          members.map { |user| user["login"] }.include?(github_user.login)
-        rescue RestClient::Forbidden, RestClient::Unauthorized, RestClient::ResourceNotFound => e
-          false
+          github_user.team_member?(team_id)
         end
 
         # Enforce user membership to the named organization
