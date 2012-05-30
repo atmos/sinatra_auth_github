@@ -6,6 +6,7 @@ module Example
     enable :sessions
 
     set :github_options, {
+      :scopes    => "user",
       :secret    => ENV['GITHUB_CLIENT_SECRET'],
       :client_id => ENV['GITHUB_CLIENT_ID'],
     }
@@ -24,15 +25,19 @@ module Example
     end
 
     get '/orgs/:id' do
-      github_public_organization_authenticate!(params['id'])
+      github_organization_authenticate!(params['id'])
       "Hello There, #{github_user.name}! You have access to the #{params['id']} organization."
     end
 
-    # the scopes above need to include repo for team access :(
-    # get '/teams/:id' do
-    #   github_team_authenticate!(params['id'])
-    #   "Hello There, #{github_user.name}! You have access to the #{params['id']} team."
-    # end
+    get '/publicized_orgs/:id' do
+      github_publicized_organization_authenticate!(params['id'])
+      "Hello There, #{github_user.name}! You are publicly a member of the #{params['id']} organization."
+    end
+
+    get '/teams/:id' do
+      github_team_authenticate!(params['id'])
+      "Hello There, #{github_user.name}! You have access to the #{params['id']} team."
+    end
 
     get '/logout' do
       logout!
