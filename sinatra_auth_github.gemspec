@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.add_dependency "sinatra",       "~>1.0"
   s.add_dependency "yajl-ruby",     "~>1.1"
   s.add_dependency "rest-client",   "~>1.6.1"
-  s.add_dependency "warden-github", "~>0.7.0"
+  s.add_dependency "warden-github", "~>0.8.0"
 
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec",     "~>2.0.0"
