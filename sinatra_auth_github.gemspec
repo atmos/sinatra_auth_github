@@ -15,8 +15,7 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "sinatra_auth_github"
 
   s.add_dependency "sinatra",       "~>1.0"
-  s.add_dependency "yajl-ruby",     "~>1.1"
-  s.add_dependency "warden-github", "~>0.9.0"
+  s.add_dependency "warden-github", "~>0.10.0"
 
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec",     "~>2.0.0"
