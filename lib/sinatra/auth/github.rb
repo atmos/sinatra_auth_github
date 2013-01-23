@@ -163,9 +163,13 @@ module Sinatra
         app.helpers Helpers
 
         app.get '/auth/github/callback' do
-          authenticate!
-          return_to = session.delete('return_to') || _relative_url_for('/')
-          redirect return_to
+          if params["error"]
+            redirect "/unauthenticated"
+          else
+            authenticate!
+            return_to = session.delete('return_to') || _relative_url_for('/')
+            redirect return_to
+          end
         end
       end
     end
