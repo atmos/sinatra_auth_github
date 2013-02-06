@@ -1,7 +1,5 @@
-require 'yajl'
 require 'sinatra/base'
-require 'warden-github'
-require 'rest_client'
+require 'warden/github'
 
 module Sinatra
   module Auth
