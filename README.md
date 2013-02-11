@@ -23,7 +23,7 @@ Running the Example
     % bundle install
     % GITHUB_CLIENT_ID="<from GH>" GITHUB_CLIENT_SECRET="<from GH>" bundle exec rackup -p9393
 
-There's an example app in [spec/app.rb](/atmos/sinatra_auth_github/blob/master/spec/app.rb).
+There's an example app in [spec/app.rb](/spec/app.rb).
 
 Example App Functionality
 =========================
