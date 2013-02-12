@@ -1,5 +1,5 @@
 require 'warden/test/helpers'
-require 'warden-github/user'
+require 'warden/github/user'
 
 module Sinatra
   module Auth
