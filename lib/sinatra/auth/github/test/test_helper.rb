@@ -11,7 +11,7 @@ module Sinatra
             User.make(attrs)
           end
 
-          class User < Warden::Github::User
+          class User < Warden::GitHub::User
             def self.make(attrs = {})
               default_attrs = {
                  'login'   => "test_user",
