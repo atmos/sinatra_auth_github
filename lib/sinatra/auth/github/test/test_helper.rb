@@ -1,5 +1,5 @@
 require 'warden/test/helpers'
-require 'warden-github/user'
+require 'warden/github/user'
 
 module Sinatra
   module Auth
@@ -11,7 +11,7 @@ module Sinatra
             User.make(attrs)
           end
 
-          class User < Warden::Github::Oauth::User
+          class User < Warden::GitHub::User
             def self.make(attrs = {})
               default_attrs = {
                  'login'   => "test_user",
