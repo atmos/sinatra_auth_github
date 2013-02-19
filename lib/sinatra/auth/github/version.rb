@@ -1,7 +1,7 @@
 module Sinatra
   module Auth
     module Github
-      VERSION = "0.12.1"
+      VERSION = "0.13.2"
     end
   end
 end
