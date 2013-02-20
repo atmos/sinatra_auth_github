@@ -22,4 +22,10 @@ describe "Logged in users" do
     last_response.status.should eql(302)
     last_response.headers['Location'].should =~ %r{^https://github\.com/login/oauth/authorize}
   end
+
+  it "shows the securocat when github returns an oauth error" do
+    get "/auth/github/callback?error=redirect_uri_mismatch"
+    follow_redirect!
+    last_response.body.should =~ %r{securocat\.png}
+  end
 end
