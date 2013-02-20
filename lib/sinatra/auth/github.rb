@@ -146,6 +146,8 @@ module Sinatra
 
       def self.registered(app)
         app.use AccessDenied
+        app.use BadAuthentication
+
         app.use Warden::Manager do |manager|
           manager.default_strategies :github
 
