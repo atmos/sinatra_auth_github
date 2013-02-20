@@ -4,9 +4,6 @@ $:.push File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'pp'
 require 'rack/test'
-require 'ruby-debug'
-
-require 'rack/test'
 
 require 'sinatra/auth/github'
 require 'sinatra/auth/github/test/test_helper'

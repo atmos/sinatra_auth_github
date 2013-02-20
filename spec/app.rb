@@ -1,5 +1,4 @@
 require 'pp'
-require 'debugger'
 
 module Example
   class App < Sinatra::Base
