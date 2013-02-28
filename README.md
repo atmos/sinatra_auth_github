@@ -28,11 +28,11 @@ There's an example app in [spec/app.rb](/spec/app.rb).
 Example App Functionality
 =========================
 
-You can simply authenticate via GitHub by hitting http://localhost:9292
+You can simply authenticate via GitHub by hitting http://localhost:9393
 
-You can check organization membership by hitting http://localhost:9292/orgs/github
+You can check organization membership by hitting http://localhost:9393/orgs/github
 
-You can check team membership by hitting http://localhost:9292/teams/42
+You can check team membership by hitting http://localhost:9393/teams/42
 
 All unsuccessful authentication requests get sent to the securocat denied page.
 
