@@ -156,7 +156,6 @@ module Sinatra
           manager[:github_secret]       = app.github_options[:secret]       || ENV['GITHUB_CLIENT_SECRET']
           manager[:github_scopes]       = app.github_options[:scopes]       || ''
           manager[:github_client_id]    = app.github_options[:client_id]    || ENV['GITHUB_CLIENT_ID']
-          manager[:github_oauth_domain] = app.github_options[:oauth_domain] || ENV['GITHUB_OAUTH_DOMAIN'] || 'https://github.com'
           manager[:github_callback_url] = app.github_options[:callback_url] || '/auth/github/callback'
         end
 

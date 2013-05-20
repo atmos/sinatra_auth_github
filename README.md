@@ -56,4 +56,11 @@ Extension Options
 * `:client_id`    - The client id that GitHub provides
 * `:failure_app`  - A Sinatra::Base class that has a route for `/unauthenticated`, Useful for overriding the securocat default page.
 * `:callback_url` - The path that GitHub posts back to, defaults to `/auth/github/callback`.
-* `:oauth_domain` - The scheme and host that's GitHub's endpoint, defaults to `https://github.com`
+
+Enterprise Authentication
+=========================
+
+Under the hood, the `warden-github` portion is powered by octokit.  If you find yourself wanting to connect to a GitHub Enterprise installation you'll need to export two environmental variables.
+
+* OCTOKIT_WEB_ENDPOINT - The web endpoint for OAuth, defaults to https://github.com
+* OCTOKIT_WEB_ENDPOINT - The API endpoint for authenticated requests, defaults to https://api.github.com
