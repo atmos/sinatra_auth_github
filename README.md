@@ -63,4 +63,4 @@ Enterprise Authentication
 Under the hood, the `warden-github` portion is powered by octokit.  If you find yourself wanting to connect to a GitHub Enterprise installation you'll need to export two environmental variables.
 
 * OCTOKIT_WEB_ENDPOINT - The web endpoint for OAuth, defaults to https://github.com
-* OCTOKIT_WEB_ENDPOINT - The API endpoint for authenticated requests, defaults to https://api.github.com
+* OCTOKIT_API_ENDPOINT - The API endpoint for authenticated requests, defaults to https://api.github.com
