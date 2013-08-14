@@ -153,10 +153,12 @@ module Sinatra
 
           manager.failure_app     = app.github_options[:failure_app] || BadAuthentication
 
-          manager[:client_secret] = app.github_options[:secret]       || ENV['GITHUB_CLIENT_SECRET']
-          manager[:scopes]        = app.github_options[:scopes]       || ''
-          manager[:client_id]     = app.github_options[:client_id]    || ENV['GITHUB_CLIENT_ID']
-          manager[:redirect_uri]  = app.github_options[:callback_url] || '/auth/github/callback'
+          manager.scope_defaults :default, :config => {
+            :client_id     => app.github_options[:client_id]    || ENV['GITHUB_CLIENT_ID'],
+            :client_secret => app.github_options[:secret]       || ENV['GITHUB_CLIENT_SECRET'],
+            :scope         => app.github_options[:scopes]       || '',
+            :redirect_uri  => app.github_options[:callback_url] || '/auth/github/callback'
+          }
         end
 
         app.helpers Helpers
