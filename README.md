@@ -36,17 +36,17 @@ You can check team membership by hitting http://localhost:9393/teams/42
 
 All unsuccessful authentication requests get sent to the securocat denied page.
 
-API Requests
+API Access
 ============
 
-The extension also provides a simple way to do get requests against the
-GitHub API as the authenticated user.
+The extension also provides a simple way to access the GitHub API, by providing an
+authenticated Octokit::Client for the user.
 
     def repos
-      github_request("user/repos")
+      github_user.api.repositories
     end
 
-There's awesome docs on the v3 API [available here](http://developer.github.com/v3/).
+For more information on API access, refer to the [octokit documentation](http://rdoc.info/gems/octokit).
 
 Extension Options
 =================
