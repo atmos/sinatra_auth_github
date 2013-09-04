@@ -1,7 +1,7 @@
 sinatra_auth_github
 ===================
 
-A sinatra extension that provides oauth authentication to github.  Find out more about enabling your application at github's [oauth quickstart](http://gist.github.com/419219).
+A sinatra extension that provides oauth authentication to github.  Find out more about enabling your application at github's [oauth quickstart](http://developer.github.com/v3/oauth/).
 
 To test it out on localhost set your callback url to 'http://localhost:9393/auth/github/callback'
 
