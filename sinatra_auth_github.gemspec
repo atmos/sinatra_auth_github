@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.email       = ["atmos@atmos.org"]
   s.homepage    = "http://github.com/atmos/sinatra_auth_github"
   s.summary     = "A sinatra extension for easy oauth integration with github"
+  s.license     = "MIT"
   s.description = s.summary
 
   s.rubyforge_project = "sinatra_auth_github"
