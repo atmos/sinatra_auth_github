@@ -1,4 +1,5 @@
 require 'pp'
+require 'json'
 
 module Example
   class App < Sinatra::Base
