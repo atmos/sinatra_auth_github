@@ -159,6 +159,18 @@ module Sinatra
             :scope         => app.github_options[:scopes]       || '',
             :redirect_uri  => app.github_options[:callback_url] || '/auth/github/callback'
           }
+
+          manager.serialize_from_session { |key| Warden::GitHub::Verifier.load(key) }
+          manager.serialize_into_session { |user| Warden::GitHub::Verifier.dump(user) }
+        end
+
+
+        # Sign cookie sessions in with AS::Verifier
+        ENV['WARDEN_GITHUB_VERIFIER_SECRET'] ||= ENV['GITHUB_VERIFIER_SECRET']
+
+        unless ENV['WARDEN_GITHUB_VERIFIER_SECRET']
+          warn "No WARDEN_GITHUB_VERIFIER_SECRET environmental variable found."
+          warn "Your sessions are likely being stored insecurely."
         end
 
         app.helpers Helpers
