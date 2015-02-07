@@ -109,17 +109,17 @@ module Sinatra
           github_user.team_member?(team_id)
         end
 
-        # Enforce user membership to the named organization
+        # Enforce publicized user membership to the named organization
         #
         # name - the organization to test membership against
         #
-        # Returns an execution halt if the user is not a member of the named org
+        # Returns an execution halt if the user is not a publicized member of the named org
         def github_public_organization_authenticate!(name)
           authenticate!
           halt([401, "Unauthorized User"]) unless github_public_organization_access?(name)
         end
 
-        # Enforce user membership to the named organization if membership is publicized
+        # Enforce user membership to the named organization
         #
         # name - the organization to test membership against
         #
