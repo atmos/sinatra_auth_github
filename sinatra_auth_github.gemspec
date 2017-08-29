@@ -15,14 +15,14 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "sinatra_auth_github"
 
-  s.add_dependency "sinatra",       "~>1.0"
-  s.add_dependency "warden-github", "~>1.2.0"
+  s.add_dependency "sinatra",       "~>2.0"
+  s.add_dependency "warden-github", "~>1.3"
 
   s.add_development_dependency "rake"
-  s.add_development_dependency "rspec",     "~>2.4.0"
+  s.add_development_dependency "rspec"
   s.add_development_dependency "shotgun"
-  s.add_development_dependency "randexp",   "~>0.1.5"
-  s.add_development_dependency "rack-test", "~>0.5.3"
+  s.add_development_dependency "randexp"
+  s.add_development_dependency "rack-test"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
